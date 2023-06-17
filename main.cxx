@@ -34,7 +34,7 @@ void runExperiment(const G& x) {
   // Compress the distribution to upto 256 entries
   size_t step = size_t(max(K(1), ceilDiv(*dmax + K(1), K(256))));
   vector<K> cdist(256);
-  for (size_t d=0; d<N+1; ++d)
+  for (size_t d=0; d<=*dmax; ++d)
     cdist[d/step] += dist[d];
   // Print the compressed distribution
   for (size_t d=0; d<256; ++d)
