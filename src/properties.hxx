@@ -52,13 +52,47 @@ inline double edgeWeightOmp(const G& x) {
 #endif
 
 
+
+
+// DEGREES
+// -------
+
 /**
  * Find the outgoing degree of each vertex.
  * @param a degrees of each vertex (output)
  * @param x original graph
- * @returns outgoing degree of each vertex
  */
 template <class G, class K>
 inline void degreesW(vector<K>& a, const G& x) {
   x.forEachVertexKey([&](auto u) { a[u] = x.degree(u); });
+}
+template <class G>
+inline auto degrees(const G& x) {
+  using  K = typename G::key_type;
+  vector<K> a(x.span());
+  degreesW(a, x);
+  return a;
+}
+
+
+
+
+// DEGREE DISTRIBUTION
+// -------------------
+
+/**
+ * Find the degree distribution of a graph.
+ * @param a degree distribution (output)
+ * @param x original graph
+ */
+template <class G, class K>
+inline void degreeDistributionW(vector<K>& a, const G& x) {
+  x.forEachVertexKey([&](auto u) { ++a[x.degree(u)]; });
+}
+template <class G>
+inline auto degreeDistribution(const G& x) {
+  using  K = typename G::key_type;
+  vector<K> a(x.order() + 1);
+  degreeDistributionW(a, x);
+  return a;
 }
